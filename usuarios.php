@@ -1,12 +1,12 @@
-
 <?php
-   $host = "localhost";                                                                                        
-   $user = "admin";
-   $pwd = "iier]9*7P>;Ye?+";
-   $bdd_usuarios = "usuarios";
+
+   $host = getenv('DB_HOST');
+   $user = getenv('DB_USER');
+   $pwd = getenv('DB_PASSWORD');
+   $bdd_usuarios = getenv('DB_NAME');
    $enlace_usuarios = mysqli_connect($host, $user, $pwd, $bdd_usuarios);
        if (!$enlace_usuarios){
-           die("No se pudo realizar la conexiÃ³n: " . mysqli_connect_error());
+           error_log("No se pudo realizar la conexión: " . mysqli_connect_error(), 3, '/var/log/app_errors.log');
+	   die("Error al conectar con la base de datos. Por favor, intentelo mas tarde.");
        }
-
 ?>

@@ -18,9 +18,9 @@
     }
       
     function imprimirTabla($usuarios) {
-        echo "<h2 class='mx-2'>GestiÃ³n de usuarios</h2>";
+        echo "<h2 class='mx-2'>Gestión de usuarios</h2>";
         echo "<table class='table table-bordered table-striped table-hover table-primary mx-2' style='width: 20%; border-collapse: collapse'>";
-        echo "<thead class='text-center'><tr><th>usuario</th><th>verificado</th><th>AcciÃ³n</th></tr></thead>";
+        echo "<thead class='text-center'><tr><th>usuario</th><th>verificado</th><th>Acción</th></tr></thead>";
         echo "<tbody class='text-center'>";
         foreach ($usuarios as $usuario) {
             echo "<tr>";

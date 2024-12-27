@@ -12,9 +12,10 @@ $festivos = [
     '12-8',
     '12-25'
 ];
+//en este caso con array map lo que hago es coger el array festivos y transformalo insertando $anio por delante para identificar la fecha completa de cada festivo
 $fiestas = array_map(function($festivo) use ($anio) {
-    return "$anio-$festivo";
-}, $festivos);
+   			 return "$anio-$festivo";
+		}, $festivos);
 
 function generarHoras($tramo1, $tramo2, $intervalo) {
     $horas = [];
@@ -44,30 +45,27 @@ $intervalo = 60; // Intervalo en minutos
 // Generar el rango de horas
 $horas = generarHoras($tramo1, $tramo2, $intervalo);
 
-// FunciÃ³n para imprimir la tabla HTML
+// Función para imprimir la tabla HTML
 function imprimirTabla($horas, $datos, $usuario_sesion, $fiestas) {
     echo "<table class='table table-bordered table-primary mx-2' style='width: 20%; border-collapse: collapse;'>";
-    echo "<thead class='text-center'><tr><th>Hora</th><th>Reserva</th><th>AcciÃ³n</th></tr></thead>";
+    echo "<thead class='text-center'><tr><th>Hora</th><th>Reserva</th><th>Acción</th></tr></thead>";
     echo "<tbody class='text-center'>";
 
     foreach ($horas as $hora) {
-         
-$fecha= date($GLOBALS['fecha']);
-
-$fiestas = $GLOBALS['fiestas'];
+	$fecha= date($GLOBALS['fecha']);
+	$fiestas = $GLOBALS['fiestas'];
         // Verificar si la fecha actual es un festivo
         $fecha_actual = date('Y-m-d');
         $es_anterior = strtotime($fecha) < strtotime($fecha_actual);
-
-        $es_festivo = in_array($fecha, $fiestas) || date('N', strtotime($fecha)) >= 6; // 6 y 7 son sÃ¡bado y domingo
+        $es_festivo = in_array($fecha, $fiestas) || date('N', strtotime($fecha)) >= 6; // 6 y 7 son sábado y domingo
 
         echo "<tr>";
         echo "<td>" . htmlspecialchars($hora) . "</td>";
 
-        if ($es_anterior) { 
-            $actividad = "Esta dÃ­a ya ha pasado";
+        if ($es_anterior) {
+            $actividad = "Esta día ya ha pasado";
         } elseif ($es_festivo) {
-            $actividad = "DÃ­a festivo";
+            $actividad = "Día festivo";
         } else {
             $actividad = "Libre";
             foreach ($datos as $fila) {
@@ -75,15 +73,14 @@ $fiestas = $GLOBALS['fiestas'];
                     if (($fila['Actividad'] == $usuario_sesion && $fila['Verificada'] == 1) || $usuario_sesion == 'admin') {
                         $actividad = $fila['Actividad'];
                     } elseif ($fila['Actividad'] == $usuario_sesion && $fila['Verificada'] == 0) {
-                        $actividad = 'Pendiente de confirmaciÃ³n';
+                        $actividad = 'Pendiente de confirmación';
                     } else {
                         $actividad = "Ocupado";
                     }
                 }
             }
         }
-        
-        
+
         echo "<td>" . htmlspecialchars($actividad) . "</td>";
         echo "<td>";
 
@@ -93,10 +90,9 @@ $fiestas = $GLOBALS['fiestas'];
                     <input type='hidden' name='mesa' value='" . 1 . "'>
                     <button type='submit' class='btn btn-success btn-sm'>Reservar</button>
                   </form>";
-        } elseif ($actividad = "Esta dÃ­a ya ha pasado" || $actividad = "DÃ­a festivo"){
+        } elseif ($actividad = "Esta día ya ha pasado" || $actividad = "Día festivo"){
             echo "-";
-                
-        } elseif (($actividad == $usuario_sesion && $fila['Verificada'] == 1) || ($usuario_sesion == 'admin'&& $fila['Verificada'] == 1)) {
+        } elseif (($actividad == $usuario_sesion && $fila['Verificada'] == 1 ) || ($usuario_sesion == 'admin'&& $fila['Verificada'] == 1)) {
             echo "<form method='post' action=''>
                     <input type='hidden' name='eliminar_hora' value='" . htmlspecialchars($hora) . "'>
                     <input type='hidden' name='mesa' value='" . 1 . "'>
@@ -125,56 +121,51 @@ $fiestas = $GLOBALS['fiestas'];
 }
 function imprimirTabla2($horas, $datos2, $usuario_sesion, $fiestas) {
     echo "<table class='table table-bordered table-primary mx-2' style='width: 20%; border-collapse: collapse;'>";
-    echo "<thead class='text-center'><tr><th>Hora</th><th>Reserva</th><th>AcciÃ³n</th></tr></thead>";
+    echo "<thead class='text-center'><tr><th>Hora</th><th>Reserva</th><th>Acción</th></tr></thead>";
     echo "<tbody class='text-center'>";
 
     foreach ($horas as $hora) {
-         
-$fecha= date($GLOBALS['fecha']);
 
-$fiestas = $GLOBALS['fiestas'];
+	$fecha= date($GLOBALS['fecha']);
+	$fiestas = $GLOBALS['fiestas'];
         // Verificar si la fecha actual es un festivo
         $fecha_actual = date('Y-m-d');
         $es_anterior = strtotime($fecha) < strtotime($fecha_actual);
-
-        $es_festivo = in_array($fecha, $fiestas) || date('N', strtotime($fecha)) >= 6; // 6 y 7 son sÃ¡bado y domingo
+        $es_festivo = in_array($fecha, $fiestas) || date('N', strtotime($fecha)) >= 6; // 6 y 7 son sábado y domingo
 
         echo "<tr>";
         echo "<td>" . htmlspecialchars($hora) . "</td>";
 
-        
-        if ($es_anterior) { 
-            $actividad2 = "Esta dÃ­a ya ha pasado";
+        if ($es_anterior) {
+            $actividad2 = "Esta día ya ha pasado";
         } elseif ($es_festivo) {
-            $actividad2 = "DÃ­a festivo";
+            $actividad2 = "Día festivo";
         } else {
             $actividad2 = "Libre";
             foreach ($datos2 as $fila2) {
-                if ($fila2['Hora'] == $hora) {                    
+                if ($fila2['Hora'] == $hora) {
                     if (($fila2['Actividad'] == $usuario_sesion && $fila2['Verificada'] == 1) || $usuario_sesion == 'admin') {
                         $actividad2 = $fila2['Actividad'];
                     } elseif ($fila2['Actividad'] == $usuario_sesion && $fila2['Verificada'] == 0) {
-                        $actividad2 = 'Pendiente de confirmaciÃ³n';
+                        $actividad2 = 'Pendiente de confirmación';
                     } else {
                         $actividad2 = "Ocupado";
                     }
                 }
             }
         }
-        
-        
+
         echo "<td>" . htmlspecialchars($actividad2) . "</td>";
         echo "<td>";
 
         if ($actividad2 == "Libre") {
             echo "<form method='post' action=''>
                     <input type='hidden' name='reservar_hora' value='" . htmlspecialchars($hora) . "'>
-                    <input type='hidden' name='mesa' value='" . 2 . "'>                    
+                    <input type='hidden' name='mesa' value='" . 2 . "'>
                     <button type='submit' class='btn btn-success btn-sm'>Reservar</button>
                   </form>";
-                } elseif ($actividad = "Esta dÃ­a ya ha pasado" || $actividad = "DÃ­a festivo"){
+                } elseif ($actividad = "Esta día ya ha pasado" || $actividad = "Día festivo"){
                     echo "-";
-                        
                 } elseif (($actividad2 == $usuario_sesion && $fila2['Verificada'] == 1) || ($usuario_sesion == 'admin'&& $fila2['Verificada'] == 1)) {
             echo "<form method='post' action=''>
                     <input type='hidden' name='eliminar_hora' value='" . htmlspecialchars($hora) . "'>

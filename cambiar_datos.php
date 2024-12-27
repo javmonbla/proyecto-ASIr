@@ -1,6 +1,8 @@
 <?php
 include 'usuarios.php';
+if (session_status() === PHP_SESSION_NONE) {
 session_start();
+}
 $usuario = $_SESSION["user"];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -17,11 +19,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Preparar y ejecutar las actualizaciones
         foreach ($campos as $campo => $valor) {
-            if (!empty($valor)) { // Solo actualiza si el valor no estÃ¡ vacÃ­o
+            if (!empty($valor)) { // Solo actualiza si el valor no está vacío
                 $stmt = $enlace_usuarios->prepare("UPDATE `user` SET `$campo` = ? WHERE `user` = ?");
                 $stmt->bind_param("ss", $valor, $usuario);
                 $stmt->execute();
-                
             }
         }
     }
@@ -41,24 +42,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $fila = $resultado->fetch_assoc();
             $res = $fila['pass'];
 
-        if($pass_anterior == $res) {
+        if(password_verify($pass_anterior, $res)) {
             if ($pass1 === $pass2) {
                 if (preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/', $pass1)) {
-                    $stmt = $enlace_usuarios->prepare("UPDATE user SET pass = ? WHERE user = ?");
-                    $stmt->bind_param("ss", $pass1, $usuario);
+                    $stmt = $enlace_usuarios->prepare("UPDATE user SET pass = ?, confirmada = 1 WHERE user = ?");
+			$password_hash = password_hash($pass1, PASSWORD_DEFAULT);
+                    $stmt->bind_param("ss", $password_hash, $usuario);
                     if ($stmt->execute()) {
                         header("Location: calendario2.php");
                     } else {
-                        echo "Error al actualizar la contraseÃ±a.";
+                        echo "Error al actualizar la contraseña.";
                     }
                 } else {
-                    echo "La nueva contraseÃ±a debe tener al menos 6 caracteres, incluir una minÃºscula, una mayÃºscula y un nÃºmero.";
+                    echo "La nueva contraseña debe tener al menos 6 caracteres, incluir una minúscula, una mayúscula y un número.";
                 }
             } else {
-                echo "Las contraseÃ±as nuevas no coinciden.";
+                echo "Las contraseñas nuevas no coinciden.";
             }
         } else {
-            echo "La contraseÃ±a anterior es incorrecta.";
+            echo "La contraseña anterior es incorrecta.";
         }
     } else {
         echo "Usuario no encontrado.";

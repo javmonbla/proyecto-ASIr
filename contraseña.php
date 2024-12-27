@@ -17,13 +17,14 @@ include 'cambiar_datos.php';
  <header style="background-color: rgb(27, 77, 124)">
  <div class="d-flex justify-content-between p-2">
         <div class="me-2 d-flex align-items-center">
-            <h2></i> Es obligatorio cambiar la contraseÃ±a de <?php echo $usuario ?>, o el usuario sera borrado</h2>
+            <h4 style="color:white"> Es obligatorio cambiar la contraseña, o el usuario sera borrado</h4>
         </div>
         <div class="d-flex align-items-center mx-2">
-            <i class="bi bi-person"></i>
-            <label for="usuario"><?php echo $usuario; ?></label>
+            <i style="color:white" class="bi bi-person"></i>
+            <label style="color:white" for="usuario"><?php imprimirNombre(); ?></label>
             <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" name="borrarsesion">
-                <button class="mx-2 btn btn-outline-dark" name="borrar" type="submit">Cerrar sesiÃ³n</button>
+            		<!--esto hace referncia a inicio_sesion.php-->
+		    <button class="mx-2 btn btn-outline-light" name="borrar" type="submit">Cerrar sesión</button>
             </form>
         </div>
     </div>
@@ -31,26 +32,27 @@ include 'cambiar_datos.php';
 <body style="background-color: rgb( 172, 195, 217 ); padding-bottom: 60px;">  
     <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" name="pass">
     <div class="container mt-5">
-        <h2 class="mb-4 text-center">Cambiar ContraseÃ±a</h2>
+        <h2 class="mb-4 text-center">Cambiar Contraseña</h2>
         <div class="card bg-transparent border-0">
             <div class="card-body">
                 <div class="row mb-3">
                     <div class="col-md-4">
-                        <label for="pass_anterior" class="form-label"><strong>ContraseÃ±a Anterior</strong></label>
+                        <label for="pass_anterior" class="form-label"><strong>Contraseña Anterior</strong></label>
                         <input type="password" class="form-control" id="pass_anterior" name="pass_anterior" required>
                     </div>
                     <div class="col-md-4">
-                        <label for="pass1" class="form-label"><strong>Nueva ContraseÃ±a</strong></label>
+                        <label for="pass1" class="form-label"><strong>Nueva Contraseña</strong></label>
                         <input type="password" class="form-control" id="pass1" name="pass1" required>
                     </div>
                     <div class="col-md-4">
-                        <label for="pass2" class="form-label"><strong>Repita la Nueva ContraseÃ±a</strong></label>
+                        <label for="pass2" class="form-label"><strong>Repita la Nueva Contraseña</strong></label>
                         <input type="password" class="form-control" id="pass2" name="pass2" required>
                     </div>
                 </div>
                 <div class="row justify-content-center">
                     <div class="col-md-4">
-                        <button class="btn btn-outline-dark w-100" type="submit" name="cambiar"><strong>Cambiar ContraseÃ±a</strong></button>
+			<!--esto hace referencia a cambiar_datos.php-->
+                        <button class="btn btn-outline-dark w-100" type="submit" name="cambiar"><strong>Cambiar Contraseña</strong></button>
                     </div>
                 </div>
             </div>
@@ -67,11 +69,11 @@ include 'cambiar_datos.php';
                 <img class="img-fluid " width=70 src="JMB2.jpg">
             </div>
             <div class="col-2 d-flex align-items-start">
-                <h4>Grupo JMB</h4>
+                <h4 style="color:white">Grupo JMB</h4>
             </div>
             <div class="col d-flex flex-grow-1 justify-content-between align-items-start m-3" style="margin-left: 20px;">
-                <h4 style=" margin: 0;">Proyecto ASIR - IES Aguadulce 24/25</h4>
-                <h4 style=" margin: 0;">Javier Montoro Blasco</h4>
+                <h4 style="color:white; margin: 0;">Proyecto ASIR - IES Aguadulce 24/25</h4>
+                <h4 style="color:white; margin: 0;">Javier Montoro Blasco</h4>
             </div>
         </div>
     </div>

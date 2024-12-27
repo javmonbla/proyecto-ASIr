@@ -1,14 +1,6 @@
 <?php
-function imprimirDatosUsuario() {
-    $host = "localhost";                                                                                        
-    $user = "admin";
-    $pwd = "iier]9*7P>;Ye?+";
-    $bdd_usuarios = "usuarios";
-    $enlace_usuarios = mysqli_connect($host, $user, $pwd, $bdd_usuarios);
-    if (!$enlace_usuarios) {
-        die("No se pudo realizar la conexión: " . mysqli_connect_error());
-    }
 
+include "usuarios.php";
     $usuario = $_SESSION["user"];
 
     $stmt = $enlace_usuarios->prepare("SELECT nombre, apellidos, nacimiento, movil, ciudad, provincia FROM `user` WHERE `user` = ?");
@@ -16,7 +8,19 @@ function imprimirDatosUsuario() {
     $stmt->execute();
     $res_u = $stmt->get_result();
     $c = $res_u->fetch_assoc();
+
+
+function imprimirDatosUsuario() {
+global $enlace_usuarios;
+global $c;
+
+if(!empty($c['nacimiento'])){
     $fechaFormateada = DateTime::createFromFormat('Y-m-d', $c['nacimiento'])->format('d-m-Y');
+}else{
+//este dato no puede estar vacio en html, aunque en base de datos si lo este, supone un fallo en html
+    $fechaFormateada = '1900-01-01';
+}
+
 
     echo "
         <div class='container mt-5'>
@@ -39,7 +43,7 @@ function imprimirDatosUsuario() {
                     </div>
                     <div class='row mb-3'>
                         <div class='col-md-4'>
-                            <strong>Móvil:</strong>
+                            <strong>M�vil:</strong>
                             <p>" . htmlspecialchars($c['movil']) . "</p>
                         </div>
                         <div class='col-md-4'>
@@ -55,4 +59,19 @@ function imprimirDatosUsuario() {
             </div>
         </div>";
 }
+function imprimirNombre(){
+global $enlace_usuarios;
+global $c;
+global $usuario;
+
+if (!empty($c['nombre']) || !empty($c['apellidos'])){
+
+echo $c['nombre'] . " " .  $c['apellidos'];
+
+}else{
+echo $usuario ;
+}}
+
+
+
 ?>
